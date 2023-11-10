@@ -19,7 +19,8 @@ export class DataService {
 
   getStates(): Observable<string[]> {
     return this.getData().pipe(
-      map(data => Array.from(new Set(data.map(entry => entry.state))))
+      map(data => Array.from(new Set(data.map(entry => entry.state)))),
+      map(states => states.sort()) // Sort the states alphabetically
     );
   }
 }

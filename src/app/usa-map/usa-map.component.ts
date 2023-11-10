@@ -16,7 +16,7 @@ interface GeoJSONFeature {
 }
 
 // GeoJSON data for Alabama
-const alabamaGeoJSON: GeoJSONFeature = {
+const alGeoJSON: GeoJSONFeature = {
   type: 'Feature',
   geometry: {
     type: 'Polygon',
@@ -30,13 +30,13 @@ const alabamaGeoJSON: GeoJSONFeature = {
     ]
   },
   properties: {
-    name: 'Alabama'
+    name: 'AL'
     // Add any additional properties if needed
   }
 };
 
 // GeoJSON data for Florida
-const floridaGeoJSON: GeoJSONFeature = {
+const flGeoJSON: GeoJSONFeature = {
   type: 'Feature',
   geometry: {
     type: 'Polygon',
@@ -51,12 +51,90 @@ const floridaGeoJSON: GeoJSONFeature = {
     ]
   },
   properties: {
-    name: 'Florida'
+    name: 'FL'
     // Add any additional properties if needed
   }
 };
+const azGeoJSON: GeoJSONFeature = {
+  type: 'Feature',
+  properties: {
+    name: 'AZ'
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [-114.818, 37.004],
+        [-109.045, 37.004],
+        [-109.045, 31.332],
+        [-114.818, 31.332],
+        [-114.818, 37.004]
+      ]
+    ]
+  }
+};
 
-const states: GeoJSONFeature[] = [alabamaGeoJSON, floridaGeoJSON];
+const caGeoJSON: GeoJSONFeature = {
+  type: 'Feature',
+  properties: {
+    name: 'CA'
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [-124.482003, 35.813046],
+        [-118.593969, 35.813046],
+        [-118.593969, 32.534156],
+        [-124.482003, 32.534156],
+        [-124.482003, 35.813046]
+      ]
+    ]
+  }
+};
+const miGeoJSON: GeoJSONFeature = {
+  type: 'Feature',
+  properties: {
+    name: 'MI'
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [-89.6, 45.6],
+        [-84.5, 45.6],
+        [-83.3, 45],
+        [-82.4, 43],
+        [-84.5, 41.8],
+        [-86.2, 41.8],
+        [-88, 43],
+        [-89.6, 45.6]
+      ]
+    ]
+  }
+};
+
+const mnGeoJSON: GeoJSONFeature = {
+  type: 'Feature',
+  properties: {
+    name: 'MN'
+  },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      [
+        [-92.1, 46.7],
+        [-89.5, 46.7],
+        [-89.5, 49],
+        [-95.3, 49],
+        [-97.2, 48.6],
+        [-97.2, 45.9],
+        [-92.1, 46.7]
+      ]
+    ]
+  }
+};
+const states: GeoJSONFeature[] = [azGeoJSON, caGeoJSON, flGeoJSON, miGeoJSON, mnGeoJSON];
 
 @Component({
   selector: 'app-usa-map',
@@ -111,6 +189,8 @@ export class UsaMapComponent implements OnInit {
         // Filter the list based on the clicked state (state.properties.name)
         // Update the list in your component accordingly
         console.log(`Clicked on ${state.properties['name']}`);
+        this.selectedState = state.properties['name'];
+        this.filterData();
       });
     });
     
