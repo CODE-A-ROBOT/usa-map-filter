@@ -147,9 +147,13 @@ const states: GeoJSONFeature[] = [azGeoJSON, caGeoJSON, flGeoJSON, miGeoJSON, mn
       <option value="">All States</option>
       <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
     </select>
+    <select [(ngModel)]="selectedCategory" (change)="filterData()">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
+    </select>
     <ul>
       <li *ngFor="let entry of filteredEntries">
-        {{ entry.bizName }} - {{ entry.state }}
+        {{ entry.bizName }} - {{ entry.state }}- {{ entry.category }}
       </li>
     </ul>
     `,
@@ -157,19 +161,79 @@ const states: GeoJSONFeature[] = [azGeoJSON, caGeoJSON, flGeoJSON, miGeoJSON, mn
 })
 export class UsaMapComponent implements OnInit {
   map: any;
+  //map: L.Map | undefined;
+  geojsonLayers: { [key: string]: L.GeoJSON } = {}; 
+
   selectedState = '';
   states$ = this.dataService.getStates();
+  selectedCategory = '';
+  categories$ = this.dataService.getCategories();
   entries: any[] = [];
   filteredEntries: any[] = [];
 
+  addGeoJSONLayers(): void {
+    const geojsons = {
+      AZ: azGeoJSON,
+      CA: caGeoJSON,
+      FL: flGeoJSON,
+      MI: mnGeoJSON,
+      MN: miGeoJSON,
+      // Add more states/countries as needed
+    };
+
+    Object.entries(geojsons).forEach(([stateAbbreviation, geojson]) => {
+      const geojsonLayer = L.geoJSON(geojson, {
+        style: () => ({
+          fillColor: this.getRandomColor(),
+          color: 'white',
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.7
+        }),
+        onEachFeature: (feature, layer) => {
+          layer.on('click', () => {
+            this.selectedState = stateAbbreviation;
+            this.filterData();
+          });
+        }
+      });
+      console.log(`Adding GeoJSON layer for ${stateAbbreviation}`);
+      console.log('GeoJSON Layer:', geojsonLayer); // Log the GeoJSON layer
+  
+      this.geojsonLayers[stateAbbreviation] = geojsonLayer;
+    });
+  
+    console.log('All GeoJSON Layers:', this.geojsonLayers); // Log all GeoJSON layers
+  
+    this.updateMap();
+  }
+
+  updateMap(): void {
+    if (this.map) {
+      Object.values(this.geojsonLayers).forEach(layer => {
+        layer.addTo(this.map!);
+      });
+    }
+  }
+
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   constructor(private dataService: DataService) {}
   
+
   ngOnInit(): void {
-    this.initializeMap();
     this.dataService.getData().subscribe(data => {
       this.entries = data;
       this.filteredEntries = this.entries;
-      console.log("States: ", this.states$);
+      this.initializeMap();
+      //this.addGeoJSONLayers();
     });
   }
 
@@ -197,9 +261,16 @@ export class UsaMapComponent implements OnInit {
   }
 
 
+
   filterData(): void {
-    this.filteredEntries = this.selectedState
-      ? this.entries.filter(entry => entry.state === this.selectedState)
-      : this.entries;
+    this.filteredEntries = this.entries;
+
+    if (this.selectedState) {
+      this.filteredEntries = this.filteredEntries.filter(entry => entry.state === this.selectedState);
+    }
+
+    if (this.selectedCategory) {
+      this.filteredEntries = this.filteredEntries.filter(entry => entry.category === this.selectedCategory);
+    }
   }
 }

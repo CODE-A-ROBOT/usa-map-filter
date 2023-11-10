@@ -23,4 +23,10 @@ export class DataService {
       map(states => states.sort()) // Sort the states alphabetically
     );
   }
+  getCategories(): Observable<string[]> {
+    return this.getData().pipe(
+      map(data => Array.from(new Set(data.map(entry => entry.category)))),
+      map(categories => categories.sort()) // Sort the categories alphabetically
+    );
+  }
 }
