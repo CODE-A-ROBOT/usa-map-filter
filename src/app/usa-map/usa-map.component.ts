@@ -2,6 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { DataService } from '../services/data.service';
 
 interface GeoJSONFeature {
   type: 'Feature';
@@ -59,15 +60,39 @@ const states: GeoJSONFeature[] = [alabamaGeoJSON, floridaGeoJSON];
 
 @Component({
   selector: 'app-usa-map',
-  templateUrl: './usa-map.component.html',
+  //templateUrl: './usa-map.component.html',
+  template: `
+    <div id="map" style="height: 500px;"></div>
+
+    <h2>List of Entries</h2>
+    <select [(ngModel)]="selectedState" (change)="filterData()">
+      <option value="">All States</option>
+      <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
+    </select>
+    <ul>
+      <li *ngFor="let entry of filteredEntries">
+        {{ entry.bizName }} - {{ entry.state }}
+      </li>
+    </ul>
+    `,
   styleUrls: ['./usa-map.component.css']
 })
 export class UsaMapComponent implements OnInit {
   map: any;
+  selectedState = '';
+  states$ = this.dataService.getStates();
+  entries: any[] = [];
+  filteredEntries: any[] = [];
 
+  constructor(private dataService: DataService) {}
   
   ngOnInit(): void {
     this.initializeMap();
+    this.dataService.getData().subscribe(data => {
+      this.entries = data;
+      this.filteredEntries = this.entries;
+      console.log("States: ", this.states$);
+    });
   }
 
   initializeMap(): void {
@@ -89,5 +114,12 @@ export class UsaMapComponent implements OnInit {
       });
     });
     
+  }
+
+
+  filterData(): void {
+    this.filteredEntries = this.selectedState
+      ? this.entries.filter(entry => entry.state === this.selectedState)
+      : this.entries;
   }
 }
