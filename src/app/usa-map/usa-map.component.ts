@@ -3,6 +3,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { DataService } from '../services/data.service';
+import { GeoJsonService } from '../services/geojson.service';
+//import 'leaflet-defaulticon-compatibility';
+//import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 
 interface GeoJSONFeature {
   type: 'Feature';
@@ -142,27 +145,35 @@ const states: GeoJSONFeature[] = [azGeoJSON, caGeoJSON, flGeoJSON, miGeoJSON, mn
   template: `
     <div id="map" style="height: 500px;"></div>
 
-    <h2>List of Entries</h2>
-    <select [(ngModel)]="selectedState" (change)="filterData()">
-      <option value="">All States</option>
-      <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
-    </select>
-    <select [(ngModel)]="selectedCategory" (change)="filterData()">
-      <option value="">All Categories</option>
-      <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
-    </select>
-    <ul>
-      <li *ngFor="let entry of filteredEntries">
-        {{ entry.bizName }} - {{ entry.state }}- {{ entry.category }}
+    <h2> </h2>
+    <div class="filters-container">
+      <select [(ngModel)]="selectedState" (change)="filterData()">
+        <option value="">All States</option>
+        <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
+      </select>
+      <select [(ngModel)]="selectedCategory" (change)="filterData()">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
+      </select>
+    </div>
+    <ul class="entry-list">
+    <li *ngFor="let entry of filteredEntries" class="entry-item">
+        <img *ngIf="entry.image" [src]="entry.image" alt="Entry Image" class="entry-image">
+        <a href="{{ entry.website }}"><span class="entry-text">{{ entry.bizName }}</span></a>
+        <span class="entry-text">&nbsp;- {{ entry.state }} - {{ entry.category }}</span>
       </li>
     </ul>
     `,
   styleUrls: ['./usa-map.component.css']
 })
+
+
+
 export class UsaMapComponent implements OnInit {
   map: any;
   //map: L.Map | undefined;
   geojsonLayers: { [key: string]: L.GeoJSON } = {}; 
+  private geoJsonUrl = 'assets/usa-states.geojson';
 
   selectedState = '';
   states$ = this.dataService.getStates();
@@ -170,6 +181,43 @@ export class UsaMapComponent implements OnInit {
   categories$ = this.dataService.getCategories();
   entries: any[] = [];
   filteredEntries: any[] = [];
+
+  constructor(private dataService: DataService, private geoJsonService: GeoJsonService) {}
+  
+
+  ngOnInit(): void {
+    this.dataService.getData().subscribe(data => {
+      this.entries = data;
+      this.filteredEntries = this.entries;
+      this.initializeMap();
+      //this.addGeoJSONLayers();
+      this.loadGeoJSON();
+
+    });
+  }
+
+  initializeMap(): void {
+    this.map = L.map('map').setView([37.8, -96], 4);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    // Add logic for state click events and filtering the list
+
+
+
+    states.forEach(state => {
+      L.geoJSON(state).addTo(this.map).on('click', () => {
+        // Filter the list based on the clicked state (state.properties.name)
+        // Update the list in your component accordingly
+        console.log(`Clicked on ${state.properties['name']}`);
+        this.selectedState = state.properties['name'];
+        this.filterData();
+      });
+    });
+    
+  }
 
   addGeoJSONLayers(): void {
     const geojsons = {
@@ -225,42 +273,37 @@ export class UsaMapComponent implements OnInit {
     return color;
   }
 
-  constructor(private dataService: DataService) {}
+
+
+  private loadGeoJSON(): void {
+    // Load GeoJSON data for USA states using the GeoJsonService
+    this.geoJsonService.getGeoJson().subscribe((data: any) => {
+      const states = data.features;
   
+      // Add Markers for each state
+      states.forEach((state: any) => {
+        const stateName = state.properties.abbreviation;
+  
+        // Check if the state has valid coordinates
+        if (state.geometry && state.geometry.coordinates && state.geometry.coordinates.length > 0) {
+          const coordinates = state.geometry.coordinates[0][0]; // Adjust the structure based on your GeoJSON
+          console.log(` coordinates for ${stateName}: ${coordinates}`);
 
-  ngOnInit(): void {
-    this.dataService.getData().subscribe(data => {
-      this.entries = data;
-      this.filteredEntries = this.entries;
-      this.initializeMap();
-      //this.addGeoJSONLayers();
-    });
-  }
-
-  initializeMap(): void {
-    this.map = L.map('map').setView([37.8, -96], 4);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(this.map);
-
-    // Add logic for state click events and filtering the list
-
-
-
-    states.forEach(state => {
-      L.geoJSON(state).addTo(this.map).on('click', () => {
-        // Filter the list based on the clicked state (state.properties.name)
-        // Update the list in your component accordingly
-        console.log(`Clicked on ${state.properties['name']}`);
-        this.selectedState = state.properties['name'];
-        this.filterData();
+          // Check if the coordinates have valid latitude and longitude values
+          if (coordinates && coordinates.length === 2) {
+            //const marker = L.marker([coordinates[1], coordinates[0]])
+            //.bindPopup(stateName)
+            //.addTo(this.map);          
+          } else {
+            console.error(`Invalid coordinates for ${stateName}`);
+          }
+        } else {
+          console.error(`Invalid geometry for ${stateName}`);
+        }
       });
     });
-    
   }
-
-
+  
 
   filterData(): void {
     this.filteredEntries = this.entries;

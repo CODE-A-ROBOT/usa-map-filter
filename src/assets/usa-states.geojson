@@ -1,0 +1,81 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "California",
+        "abbreviation": "CA"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-123.233256, 42.006186],
+            [-123.233256, 37.861046],
+            [-117.063083, 37.861046],
+            [-117.063083, 42.006186],
+            [-123.233256, 42.006186]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Florida",
+        "abbreviation": "FL"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.6348, 30.9942],
+            [-87.6348, 24.3963],
+            [-80.0313, 24.3963],
+            [-80.0313, 30.9942],
+            [-87.6348, 30.9942]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Michigan",
+        "abbreviation": "MI"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-89.4136, 48.3060],
+            [-89.4136, 41.7057],
+            [-82.1221, 41.7057],
+            [-82.1221, 48.3060],
+            [-89.4136, 48.3060]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Minnesota",
+        "abbreviation": "MN"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-97.2392, 49.3597],
+            [-97.2392, 43.5000],
+            [-89.4919, 43.5000],
+            [-89.4919, 49.3597],
+            [-97.2392, 49.3597]
+          ]
+        ]
+      }
+    }
+  ]
+}

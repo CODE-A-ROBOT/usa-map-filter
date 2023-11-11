@@ -6,6 +6,34 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Add these lines to include Leaflet from CDN -->
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Default Marker Icon CSS -->
+<style>
+  .leaflet-marker-icon,
+  .leaflet-marker-shadow,
+  .leaflet-zoom-box,
+  .leaflet-image-layer,
+  .leaflet-pane > svg,
+  .leaflet-pane > canvas,
+  .leaflet-tile,
+  .leaflet-pane,
+  .leaflet-marker-icon,
+  .leaflet-tile-container,
+  .leaflet-pane > svg,
+  .leaflet-pane > canvas,
+  .leaflet-layer,
+  .leaflet-shadow-pane {
+    position: absolute;
+    left: 0;
+  }
+</style>
+
 </head>
 <body>
   <app-root></app-root>
