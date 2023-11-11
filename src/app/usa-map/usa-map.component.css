@@ -43,3 +43,12 @@
     justify-content: left; /* Center the filters horizontally within the container */
   }
   
+  
+  .state-label {
+    top: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: #333; /* Adjust the color as needed */
+  }
+  

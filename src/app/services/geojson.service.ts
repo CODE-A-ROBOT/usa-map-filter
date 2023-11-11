@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GeoJsonService {
-  private geoJsonUrl = 'assets/usa-states.geojson';
+  private geoJsonUrl = 'assets/us-states.geojson';
 
   constructor(private http: HttpClient) { }
 
