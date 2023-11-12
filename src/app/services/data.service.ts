@@ -29,4 +29,8 @@ export class DataService {
       map(categories => categories.sort()) // Sort the categories alphabetically
     );
   }
+
+  addEntry(entry: any): Observable<any> {
+    return this.http.post(`api/add`, entry);
+  }
 }

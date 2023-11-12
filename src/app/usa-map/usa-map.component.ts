@@ -20,7 +20,7 @@ interface GeoJSONFeature {
 @Component({
   selector: 'app-usa-map',
   template: `
-    <div id="map" style="height: 500px;"></div>
+    <div id="map" style="height: 360px;"></div>
 
     <h2> </h2>
     <div class="filters-container">
@@ -41,9 +41,9 @@ interface GeoJSONFeature {
       </li>
     </ul>
     <div class="form-container">
-      <h3>Add New Entry</h3>
-      <form (submit)="addNewEntry()">
-        <label for="bizName">Business Name:</label>
+      <h3>Submit New Entry for Review:</h3>
+      <form (submit)="onAddNewEntry()">
+        <label for="bizName">Entity Name:</label>
         <input type="text" id="bizName" name="bizName" [(ngModel)]="newEntry.bizName" required>
 
         <label for="state">State:</label>
@@ -52,7 +52,11 @@ interface GeoJSONFeature {
         <label for="category">Category:</label>
         <input type="text" id="category" name="category" [(ngModel)]="newEntry.category" required>
 
-        <button type="submit">Add Entry</button>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" [(ngModel)]="newEntry.description" required>
+
+        <button type="submit">Submit Entry</button>
+
       </form>
     </div>
   `,
@@ -69,7 +73,7 @@ export class UsaMapComponent implements OnInit {
   categories$ = this.dataService.getCategories();
   entries: any[] = [];
   filteredEntries: any[] = [];
-  newEntry: { bizName: string, state: string, category: string } = { bizName: '', state: '', category: '' };
+  newEntry: { bizName: string, state: string, category: string, description: string } = { bizName: '', state: '', category: '', description: '' };
 
   constructor(private dataService: DataService, private geoJsonService: GeoJsonService) {}
 
@@ -89,7 +93,14 @@ export class UsaMapComponent implements OnInit {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-
+    // Add Pagini Romanesti SUA text overlay
+    const mapTitle = L.DomUtil.get('map-title') || L.DomUtil.create('div', 'map-title');
+    mapTitle.innerHTML = '<h2>Pagini Romanesti SUA</h2>';
+    mapTitle.style.position = 'absolute';
+    mapTitle.style.top = '20px'; // Adjust the top position as needed
+    mapTitle.style.left = '50%';
+    mapTitle.style.transform = 'translateX(-50%)';
+    this.map.getContainer().appendChild(mapTitle);
   }
 
   private loadGeoJSON(): void {
@@ -215,19 +226,23 @@ export class UsaMapComponent implements OnInit {
   }
 
 
-  addNewEntry(): void {
+  onAddNewEntry(): void {
     // Perform validation or additional logic as needed
     if (this.newEntry.bizName && this.newEntry.state && this.newEntry.category) {
       // Add the new entry to your data
-      this.entries.push(this.newEntry);
+      this.dataService.addEntry(this.newEntry).subscribe((addedEntry) => {
+        // Handle the added entry as needed
+        console.log('Added Entry:', addedEntry);
+      });
 
       // Filter and update the map as needed
       this.filterData();
 
       // Clear the form after adding the entry
-      this.newEntry = { bizName: '', state: '', category: '' };
+      this.newEntry = { bizName: '', state: '', category: '', description: '' };
     } else {
       console.error('Please fill in all fields.');
     }
   }
+
 }

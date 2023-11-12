@@ -1,22 +1,18 @@
 /* usa-map.component.css */
   /* Add this to your usa-map.component.css */
-  #map-title {
-    text-align: center;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 8px;
-    border-radius: 4px;
-  }
+  /* styles.css or your component's style file */
+
   .usa-map-container {
     font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
     text-align: center; /* Center the content horizontally */
 
   }
-  h2, select {
+  h2, h3, select {
     font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
-    font-size: 16px; /* Adjust the font size */
     margin-bottom: 10px; /* Add some space between elements */
+    font-size: 16px; /* Adjust the font size */
   }  
+
   .entry-list {
     list-style-type: none;
     padding: 0;

@@ -24,10 +24,32 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 PATH
 ## Deploy on Render
 Set Build Command to: 
-ng build --prod
+npm install && ng build --prod
+
+mkdir -p ~/.npm-global;npm config set prefix '~/.npm-global';export PATH=~/.npm-global/bin:$PATH;npm install -g n;mkdir -p ~/.n;export N_PREFIX=~/.n;n 18.13;export PATH=$N_PREFIX/bin:$PATH;npm install -g @angular/cli;ng update @angular/cli @angular/core --allow-dirty --force;npm install;ng build --configuration=production
 
 Set Start Command to:
-npm install --save-dev http-server
+export PATH=~/.npm-global/bin:$PATH;npx http-server dist/usa-map-filter -p $PORT
+
+
+
+
+mkdir -p ~/.npm-global;npm config set prefix '~/.npm-global';export PATH=~/.npm-global/bin:$PATH;npm install -g n;mkdir -p ~/.n;export N_PREFIX=~/.n;n 18.13;export PATH=$N_PREFIX/bin:$PATH;npm install -g @angular/cli;ng update @angular/cli @angular/core --allow-dirty --force;ng serve
+
+
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+export PATH=~/.npm-global/bin:$PATH
+npm install -g n
+mkdir -p ~/.n
+export N_PREFIX=~/.n
+n 18.13
+export PATH=$N_PREFIX/bin:$PATH
+npm install -g @angular/cli
+ng update @angular/cli @angular/core --allow-dirty --force
+ng serve
+
+
 
 
 ## Further help
