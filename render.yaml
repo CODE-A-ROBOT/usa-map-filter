@@ -1,0 +1,5 @@
+services:
+  - name: angular-app
+    type: web
+    buildCommand: npm install && ng build --prod
+    startCommand: npx http-server dist/usa-map-filter -p $PORT
