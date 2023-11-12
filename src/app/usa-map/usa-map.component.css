@@ -1,4 +1,12 @@
 /* usa-map.component.css */
+  /* Add this to your usa-map.component.css */
+  #map-title {
+    text-align: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+  }
   .usa-map-container {
     font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
     text-align: center; /* Center the content horizontally */

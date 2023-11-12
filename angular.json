@@ -33,6 +33,12 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "dist/usa-map-filter",
+              "index": "src/index.html",
+              "main": "src/main.ts",
+              "polyfills": [
+                "zone.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",

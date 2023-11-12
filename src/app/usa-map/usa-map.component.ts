@@ -40,6 +40,21 @@ interface GeoJSONFeature {
         <span class="entry-text">&nbsp;- {{ entry.state }} - {{ entry.category }}</span>
       </li>
     </ul>
+    <div class="form-container">
+      <h3>Add New Entry</h3>
+      <form (submit)="addNewEntry()">
+        <label for="bizName">Business Name:</label>
+        <input type="text" id="bizName" name="bizName" [(ngModel)]="newEntry.bizName" required>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" [(ngModel)]="newEntry.state" required>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" [(ngModel)]="newEntry.category" required>
+
+        <button type="submit">Add Entry</button>
+      </form>
+    </div>
   `,
   styleUrls: ['./usa-map.component.css']
 })
@@ -54,6 +69,7 @@ export class UsaMapComponent implements OnInit {
   categories$ = this.dataService.getCategories();
   entries: any[] = [];
   filteredEntries: any[] = [];
+  newEntry: { bizName: string, state: string, category: string } = { bizName: '', state: '', category: '' };
 
   constructor(private dataService: DataService, private geoJsonService: GeoJsonService) {}
 
@@ -72,6 +88,8 @@ export class UsaMapComponent implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
+
+
   }
 
   private loadGeoJSON(): void {
@@ -194,5 +212,22 @@ export class UsaMapComponent implements OnInit {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+  }
+
+
+  addNewEntry(): void {
+    // Perform validation or additional logic as needed
+    if (this.newEntry.bizName && this.newEntry.state && this.newEntry.category) {
+      // Add the new entry to your data
+      this.entries.push(this.newEntry);
+
+      // Filter and update the map as needed
+      this.filterData();
+
+      // Clear the form after adding the entry
+      this.newEntry = { bizName: '', state: '', category: '' };
+    } else {
+      console.error('Please fill in all fields.');
+    }
   }
 }
