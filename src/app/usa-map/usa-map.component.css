@@ -69,3 +69,33 @@ h2, h3, select {
 .verified-false-text {
   color: gray; /* Change the color to your desired gray */
 }
+.form-label, form-button {
+  font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
+  font-size: 16px; /* Adjust the font size */
+}
+
+/* Style for the form container */
+.form-container {
+  text-align: left; /* Align the entire form container to the left */
+}
+
+/* Style for form labels */
+.form-label {
+  text-align: left; /* Align form labels to the right */
+  display: inline-block; /* Allow labels and fields to be on the same line */
+  width: 120px; /* Set a fixed width for labels to create space between them and fields */
+  /* Add any additional styles for form labels */
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+/* Style for form fields */
+.form-field {
+  text-align: left; /* Align the text inside form fields to the left */
+  display: inline-block; /* Allow labels and fields to be on the same line */
+  /* Add any additional styles for form fields */
+  margin-bottom: 10px; /* Adjust as needed */
+  width: 300px;
+}
+.form-select {
+  width: 100px;
+}

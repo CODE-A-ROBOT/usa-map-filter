@@ -29,28 +29,10 @@ npm install && ng build --prod
 mkdir -p ~/.npm-global;npm config set prefix '~/.npm-global';export PATH=~/.npm-global/bin:$PATH;npm install -g n;mkdir -p ~/.n;export N_PREFIX=~/.n;n 18.13;export PATH=$N_PREFIX/bin:$PATH;npm install -g @angular/cli;ng update @angular/cli @angular/core --allow-dirty --force;npm install;ng build --configuration=production
 
 Set Start Command to:
-export PATH=~/.npm-global/bin:$PATH;npx http-server dist/usa-map-filter -p $PORT
+export PATH=~/.npm-global/bin:$PATH;node server.js
 
-
-
-
-mkdir -p ~/.npm-global;npm config set prefix '~/.npm-global';export PATH=~/.npm-global/bin:$PATH;npm install -g n;mkdir -p ~/.n;export N_PREFIX=~/.n;n 18.13;export PATH=$N_PREFIX/bin:$PATH;npm install -g @angular/cli;ng update @angular/cli @angular/core --allow-dirty --force;ng serve
-
-
-mkdir -p ~/.npm-global
-npm config set prefix '~/.npm-global'
-export PATH=~/.npm-global/bin:$PATH
-npm install -g n
-mkdir -p ~/.n
-export N_PREFIX=~/.n
-n 18.13
-export PATH=$N_PREFIX/bin:$PATH
-npm install -g @angular/cli
-ng update @angular/cli @angular/core --allow-dirty --force
-ng serve
-
-
-
+Prev Start Command was
+#export PATH=~/.npm-global/bin:$PATH;npx http-server dist/usa-map-filter -p $PORT
 
 ## Further help
 

@@ -50,37 +50,6 @@ interface GeoJSONFeature {
     <div class="form-container">
       <h3>Submit New Entry for Review:</h3>
       <form (submit)="onAddNewEntry()">
-        <label for="bizName">Entity Name:</label>
-        <input type="text" id="bizName" name="bizName" [(ngModel)]="newEntry.bizName" required>
-
-        <select id="state" name="state" [(ngModel)]="newEntry.state">
-          <option value="">State</option>
-          <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
-        </select>
-        <select id="category" name="category" [(ngModel)]="newEntry.category">
-          <option value="">Category</option>
-          <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
-        </select>
-
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" [(ngModel)]="newEntry.description" required>
-
-        <label for="description">Website:</label>
-        <input type="text" id="website" name="website" [(ngModel)]="newEntry.website" required>
-
-        <label for="description">Address:</label>
-        <input type="text" id="address" name="address" [(ngModel)]="newEntry.address" optional>
-
-        <label for="description">Phone:</label>
-        <input type="text" id="phone" name="phone" [(ngModel)]="newEntry.phone" optional>
-
-        <label for="description">Email:</label>
-        <input type="text" id="email" name="email" [(ngModel)]="newEntry.email" optional>
-
-        <label for="description">Contact:</label>
-        <input type="text" id="contact" name="contact" [(ngModel)]="newEntry.contact" optional>
-
-        <button type="submit">Submit Entry</button>
         <!-- Thank you message -->
         <div *ngIf="showThankYouMessage">
           Thank you for submitting, your entry will be reviewed soon.
@@ -89,6 +58,52 @@ interface GeoJSONFeature {
         <div *ngIf="showErrorMessage">
           Something went wrong, please try again with valid information.
         </div>
+        <div>
+        <label class="form-label" for="bizName">Entity Name: </label>
+        <input class="form-field" type="text" id="bizName" name="bizName" [(ngModel)]="newEntry.bizName" required>
+        </div>
+        <div>
+        <label class="form-label" for="state">State: </label>
+        <select class="form-select" id="state" name="state" [(ngModel)]="newEntry.state">
+          <option value="">Select</option>
+          <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
+        </select>
+        </div>
+        <div>
+        <label class="form-label" for="category">Category: </label>
+        <select class="form-select" id="category" name="category" [(ngModel)]="newEntry.category">
+          <option value="">Select</option>
+          <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
+        </select>
+        </div>
+        <div>
+        <label class="form-label" for="description">Description: </label>
+        <input class="form-field" type="text" id="description" name="description" [(ngModel)]="newEntry.description" required>
+        </div>
+        <div>
+        <label class="form-label" for="description">Website: </label>
+        <input class="form-field" type="text" id="website" name="website" [(ngModel)]="newEntry.website" required>
+        </div>
+        <div>
+        <label class="form-label" for="description">Address: </label>
+        <input class="form-field" type="text" id="address" name="address" [(ngModel)]="newEntry.address" optional>
+        </div>
+        <div>
+        <label class="form-label" for="description">Phone: </label>
+        <input class="form-field" type="text" id="phone" name="phone" [(ngModel)]="newEntry.phone" optional>
+        </div>
+        <div>
+        <label class="form-label" for="description">Email: </label>
+        <input class="form-field" type="text" id="email" name="email" [(ngModel)]="newEntry.email" optional>
+        </div>
+        <div>
+        <label class="form-label" for="description">Contact: </label>
+        <input class="form-field" type="text" id="contact" name="contact" [(ngModel)]="newEntry.contact" optional>
+        </div>
+        <div>
+        <button class="form-button" type="submit">Submit</button>
+        </div>
+        
       </form>
     </div>
   `,
