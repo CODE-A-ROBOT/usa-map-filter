@@ -42,10 +42,20 @@ body {
     color: white;
     text-shadow: 2px 2px 4px rgba(6, 6, 6, 0.535); /* Add a subtle black shadow */
 
-    font-size: 40px;
     font-weight: bold;
     white-space: nowrap; /* Prevent text from wrapping onto multiple lines */
     text-align: center; /* Center text horizontally */
   }
 
+
+  .centered-text h1 {
+    font-size: 50px;
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 600px) {
+    .centered-text h1 {
+      font-size: 30px; /* Adjust the font size for smaller screens */
+    }
+  }
 

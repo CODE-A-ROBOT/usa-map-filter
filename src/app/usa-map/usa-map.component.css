@@ -1,58 +1,71 @@
 /* usa-map.component.css */
-  /* Add this to your usa-map.component.css */
-  /* styles.css or your component's style file */
 
-  .usa-map-container {
-    font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
-    text-align: center; /* Center the content horizontally */
+.centered-text {
+  /* Add any additional styles here */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  }
-  h2, h3, select {
-    font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
-    margin-bottom: 10px; /* Add some space between elements */
-    font-size: 16px; /* Adjust the font size */
-  }  
+.usa-map-container {
+  font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
+  text-align: center; /* Center the content horizontally */
 
-  .entry-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .entry-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .entry-image {
-    width: 50px; /* Adjust the width of the image */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 10px;
-    vertical-align:middle;
-  }
-  
-  .entry-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0;
-    font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
-    font-size: 16px; /* Adjust the font size */
-    line-height: 1;
-  }
-  
-  .filters-container {
-    margin-bottom: 0px; /* Add some space between filters and the map */
-    display: flex;
-    justify-content: left; /* Center the filters horizontally within the container */
-  }
-  
-  
-  .state-label {
-    top: 10px;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    color: #333; /* Adjust the color as needed */
-  }
-  
+}
+h2, h3, select {
+  font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
+  margin-bottom: 10px; /* Add some space between elements */
+  font-size: 16px; /* Adjust the font size */
+}  
+
+.entry-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.entry-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.entry-image {
+  width: 50px; /* Adjust the width of the image */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px;
+  vertical-align:middle;
+}
+
+.entry-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  font-family: 'Helvetica', sans-serif; /* Use Helvetica or the desired font */
+  font-size: 16px; /* Adjust the font size */
+  line-height: 1;
+}
+
+.filters-container {
+  margin-bottom: 0px; /* Add some space between filters and the map */
+  display: flex;
+  justify-content: left; /* Center the filters horizontally within the container */
+}
+
+
+.state-label {
+  top: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  color: #333; /* Adjust the color as needed */
+}
+
+.verified-false {
+  color: gray; /* Change the color to your desired gray */
+}
+
+.verified-false-text {
+  color: gray; /* Change the color to your desired gray */
+}

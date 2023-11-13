@@ -1,10 +1,11 @@
 // usa-map.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 import * as L from 'leaflet';
 import { DataService } from '../services/data.service';
 import { GeoJsonService } from '../services/geojson.service';
 import { GeoJsonObject } from 'geojson';
+import { first } from 'rxjs/operators';
 
 interface GeoJSONFeature {
   type: 'Feature';
@@ -21,6 +22,7 @@ interface GeoJSONFeature {
   selector: 'app-usa-map',
   template: `
     <div id="map" style="height: 360px;"></div>
+    <!-- Your component template -->
 
     <h2> </h2>
     <div class="filters-container">
@@ -34,9 +36,14 @@ interface GeoJSONFeature {
       </select>
     </div>
     <ul class="entry-list">
-      <li *ngFor="let entry of filteredEntries" class="entry-item">
-        <img *ngIf="entry.image" [src]="entry.image" alt="Entry Image" class="entry-image">
-        <a href="{{ entry.website }}"><span class="entry-text">{{ entry.bizName }}</span></a>
+      <li *ngFor="let entry of filteredEntries" class="entry-item" [ngClass]="{ 'verified-false': !(entry.verified==true) }">
+        <img *ngIf="entry.image&&entry.verified==true" [src]="entry.image" alt="Entry Image" class="entry-image">
+        <a *ngIf="entry.verified==true; else unverified" href="{{ entry.website }}">
+          <span class="entry-text">{{ entry.bizName }}</span>
+        </a>
+        <ng-template #unverified>
+          <span class="entry-text">(under review) {{ entry.bizName }}</span>
+        </ng-template>
         <span class="entry-text">&nbsp;- {{ entry.state }} - {{ entry.category }}</span>
       </li>
     </ul>
@@ -46,17 +53,42 @@ interface GeoJSONFeature {
         <label for="bizName">Entity Name:</label>
         <input type="text" id="bizName" name="bizName" [(ngModel)]="newEntry.bizName" required>
 
-        <label for="state">State:</label>
-        <input type="text" id="state" name="state" [(ngModel)]="newEntry.state" required>
-
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="category" [(ngModel)]="newEntry.category" required>
+        <select id="state" name="state" [(ngModel)]="newEntry.state">
+          <option value="">State</option>
+          <option *ngFor="let state of states$ | async" [value]="state">{{ state }}</option>
+        </select>
+        <select id="category" name="category" [(ngModel)]="newEntry.category">
+          <option value="">Category</option>
+          <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
+        </select>
 
         <label for="description">Description:</label>
         <input type="text" id="description" name="description" [(ngModel)]="newEntry.description" required>
 
-        <button type="submit">Submit Entry</button>
+        <label for="description">Website:</label>
+        <input type="text" id="website" name="website" [(ngModel)]="newEntry.website" required>
 
+        <label for="description">Address:</label>
+        <input type="text" id="address" name="address" [(ngModel)]="newEntry.address" optional>
+
+        <label for="description">Phone:</label>
+        <input type="text" id="phone" name="phone" [(ngModel)]="newEntry.phone" optional>
+
+        <label for="description">Email:</label>
+        <input type="text" id="email" name="email" [(ngModel)]="newEntry.email" optional>
+
+        <label for="description">Contact:</label>
+        <input type="text" id="contact" name="contact" [(ngModel)]="newEntry.contact" optional>
+
+        <button type="submit">Submit Entry</button>
+        <!-- Thank you message -->
+        <div *ngIf="showThankYouMessage">
+          Thank you for submitting, your entry will be reviewed soon.
+        </div>       
+         <!-- Error message -->
+        <div *ngIf="showErrorMessage">
+          Something went wrong, please try again with valid information.
+        </div>
       </form>
     </div>
   `,
@@ -73,7 +105,31 @@ export class UsaMapComponent implements OnInit {
   categories$ = this.dataService.getCategories();
   entries: any[] = [];
   filteredEntries: any[] = [];
-  newEntry: { bizName: string, state: string, category: string, description: string } = { bizName: '', state: '', category: '', description: '' };
+  newEntry: { 
+    bizName: string, 
+    state: string, 
+    category: string, 
+    description: string, 
+    website: string, 
+    address: string, 
+    phone: string, 
+    email: string, 
+    contact: string,
+    verified: boolean
+  } = { 
+    bizName: '', 
+    state: '' , 
+    category: '', 
+    description: '', 
+    website: '', 
+    address: '', 
+    phone: '', 
+    email: '', 
+    contact: '',
+    verified: false
+  };
+  showThankYouMessage = false;
+  showErrorMessage = false;
 
   constructor(private dataService: DataService, private geoJsonService: GeoJsonService) {}
 
@@ -239,9 +295,34 @@ export class UsaMapComponent implements OnInit {
       this.filterData();
 
       // Clear the form after adding the entry
-      this.newEntry = { bizName: '', state: '', category: '', description: '' };
+      this.newEntry = { 
+        bizName: '', 
+        state: '' , 
+        category: '', 
+        description: '', 
+        website: '', 
+        address: '', 
+        phone: '', 
+        email: '', 
+        contact: '',
+        verified: false
+      };
+      // Set the flag to true after successful submission
+      this.showThankYouMessage = true;
+
+      // Hide the message after 5 seconds
+      setTimeout(() => {
+        this.showThankYouMessage = false;
+      }, 5000);
     } else {
       console.error('Please fill in all fields.');
+      // Set the flag to true after successful submission
+      this.showErrorMessage = true;
+
+      // Hide the message after 5 seconds
+      setTimeout(() => {
+        this.showErrorMessage = false;
+      }, 5000);
     }
   }
 

@@ -4,23 +4,26 @@ const fs = require('fs');
 
 const app = express();
 const port = 3000;
+const distDir = 'dist/usa-map-filter';
+const dataJson = distDir + '/assets/data.json';
+const encoding = 'utf-8';
 
 app.use(bodyParser.json());
 
 // Serve static files from the 'dist' directory
-app.use(express.static('dist/usa-map-filter'));
+app.use(express.static(distDir));
 
 app.post('/api/add', (req, res) => {
   const newEntry = req.body;
 
   // Read the existing data from data.json
-  const existingData = JSON.parse(fs.readFileSync('data.json', 'utf-8'));
+  const existingData = JSON.parse(fs.readFileSync(dataJson, encoding));
 
   // Add the new entry to the data
   existingData.push(newEntry);
 
   // Write the updated data back to data.json
-  fs.writeFileSync('data.json', JSON.stringify(existingData, null, 2), 'utf-8');
+  fs.writeFileSync(dataJson, JSON.stringify(existingData, null, 2), encoding);
 
   res.status(200).json({ message: 'Entry added successfully' });
 });
