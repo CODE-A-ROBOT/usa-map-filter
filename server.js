@@ -21,7 +21,7 @@ app.use('/', async (req, res, next) => {
 
     const response = await axios.get(`https://ipinfo.io/${req.clientIP}?token=${IPINFO_API_TOKEN}`);
     req.clientLocation = response.data;
-    console.log('clientLocation: ' + clientLocation);
+    console.log(`clientLocation: ${JSON.stringify(req.clientLocation)}`);
 
     // Log the IP location to a file
     const logData = `${new Date().toISOString()} - IP: ${req.clientIP}, Location: ${JSON.stringify(req.clientLocation)}\n`;
