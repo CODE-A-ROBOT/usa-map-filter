@@ -23,8 +23,19 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 PATH
 ## Deploy on Render
+set Environment
+NODE_VERSION=18.12.0
+PORT=<port> (default 3000)
+
 Set Build Command to: 
-npm install && ng build --prod
+npm install -g @angular/cli;npm install;ng build --configuration=production
+
+Set Start Command to:
+node server.js
+
+
+Was:
+Set Build Command to: 
 
 mkdir -p ~/.npm-global;npm config set prefix '~/.npm-global';export PATH=~/.npm-global/bin:$PATH;npm install -g n;mkdir -p ~/.n;export N_PREFIX=~/.n;n 18.13;export PATH=$N_PREFIX/bin:$PATH;npm install -g @angular/cli;ng update @angular/cli @angular/core --allow-dirty --force;npm install;ng build --configuration=production
 

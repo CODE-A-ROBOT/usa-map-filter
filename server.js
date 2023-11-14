@@ -4,7 +4,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000; // Use the provided PORT or default to 3000
 const distDir = 'dist/usa-map-filter';
 const dataJson = distDir + '/assets/data.json';
 const encoding = 'utf-8';
@@ -78,6 +78,6 @@ app.post('/logIP', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
