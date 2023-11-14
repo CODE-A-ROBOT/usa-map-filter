@@ -21,6 +21,7 @@ app.use('/', async (req, res, next) => {
 
     const response = await axios.get(`https://ipinfo.io/${req.clientIP}?token=${IPINFO_API_TOKEN}`);
     req.clientLocation = response.data;
+    console.log('clientLocation: ' + clientLocation);
 
     // Log the IP location to a file
     const logData = `${new Date().toISOString()} - IP: ${req.clientIP}, Location: ${JSON.stringify(req.clientLocation)}\n`;
@@ -54,7 +55,7 @@ app.post('/api/add', (req, res) => {
   // Write the updated data back to data.json
   fs.writeFileSync(dataJson, JSON.stringify(existingData, null, 2), encoding);
 
-  res.status(200).json({ message: 'Entry added successfully' });
+  res.status(200).json({ message: `Entry added successfully:${newEntry}` });
 });
 
 // For any other routes, send the index.html file
