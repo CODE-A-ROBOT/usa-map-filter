@@ -285,6 +285,8 @@ export class UsaMapComponent implements OnInit {
     if (this.selectedCategory) {
       this.filteredEntries = this.filteredEntries.filter(entry => entry.category === this.selectedCategory);
     }
+
+    //HERE
   }
 
   getRandomColor(): string {
@@ -340,5 +342,8 @@ export class UsaMapComponent implements OnInit {
       }, 5000);
     }
   }
+
+
+
 
 }
